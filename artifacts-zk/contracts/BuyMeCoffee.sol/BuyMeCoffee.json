@@ -1,6 +1,6 @@
 {
   "_format": "hh-zksolc-artifact-1",
-  "contractName": "BuyMeACoffee",
+  "contractName": "BuyMeCoffee",
   "sourceName": "contracts/BuyMeCoffee.sol",
   "abi": [
     {
@@ -84,7 +84,7 @@
               "type": "string"
             }
           ],
-          "internalType": "struct BuyMeACoffee.Memo[]",
+          "internalType": "struct BuyMeCoffee.Memo[]",
           "name": "",
           "type": "tuple[]"
         }
