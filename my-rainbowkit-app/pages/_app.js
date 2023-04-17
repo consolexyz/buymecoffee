@@ -5,11 +5,33 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
+
+const zksyncdev = {
+  id: 280,
+  name: 'ZksyncEraTestnet',
+  network: 'zksync',
+  iconUrl: 'https://example.com/icon.svg',
+  iconBackground: '#0000FF',
+  nativeCurrency: {
+  decimals: 18,
+  name: 'ZksyncEraTestnet',
+  symbol: 'ETH',
+  },
+  rpcUrls: {
+  default: {
+  http: ['https://testnet.era.zksync.dev'],
+  },
+  },
+  blockExplorers: {
+  default: { name: 'zksyncexplorer', url: 'https://goerli.explorer.zksync.io/' },
+  etherscan: { name: 'zksyncexplorer', url: 'https://goerli.explorer.zksync.io/' },
+  },
+  testnet: false,
+  };
+
+
 const chains = [
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
+  zksyncdev,
   ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
 ];
 

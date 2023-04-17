@@ -23,3 +23,25 @@ a {
 .main-text{
   text-align: center;
 }
+form{
+  text-align: center;
+}
+textarea {
+  width: 35%;
+  height: 40px;
+  box-sizing: border-box;
+  border: solid #ccc;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+.form-button{
+  width: 100px;
+  border-radius: 15px;
+  background-color: #E1B88E;
+  color: #fff;
+  text-align: center;
+  padding: 2px 5px;
+  cursor: pointer;
+}
