@@ -1,89 +1,168 @@
-import React, { useState } from 'react';
-import { useWeb3Contract, useMoralis } from "react-moralis";
-import abi from "../../artifacts-zk/contracts/BuyMeCoffee.sol/BuyMeCoffee.json";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from "react";
+import {
+  useWeb3Contract,
+  useMoralis,
+  useWeb3ExecuteFunction,
+} from "react-moralis";
 
+function Main() {
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+  const { enableWeb3, isWeb3Enabled, Moralis } = useMoralis();
 
+  const { data, error, isFetching, isLoading, fetch } =
+    useWeb3ExecuteFunction();
+  const options = {
+    abi: [
+      {
+        inputs: [],
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
+      {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: true,
+            internalType: "address",
+            name: "from",
+            type: "address",
+          },
+          {
+            indexed: false,
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            indexed: false,
+            internalType: "string",
+            name: "message",
+            type: "string",
+          },
+        ],
+        name: "NewMemo",
+        type: "event",
+      },
+      {
+        inputs: [
+          {
+            internalType: "string",
+            name: "_name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "_message",
+            type: "string",
+          },
+        ],
+        name: "buyCoffee",
+        outputs: [],
+        stateMutability: "payable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "getMemos",
+        outputs: [
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "from",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "timestamp",
+                type: "uint256",
+              },
+              {
+                internalType: "string",
+                name: "name",
+                type: "string",
+              },
+              {
+                internalType: "string",
+                name: "message",
+                type: "string",
+              },
+            ],
+            internalType: "struct BuyMeCoffee.Memo[]",
+            name: "",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "withdrawTips",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    contractAddress: "0xc99632aA6D711421eB5997eaD592aEc1d6827D5a",
+    functionName: "buyCoffee",
+    params: {
+      _name: "moses",
+      _message: "moses",
+    },
+    msgValue: Moralis.Units.ETH(0.001),
+  };
 
-function Main () {
+  const buyCoffee = async () => {
+    await enableWeb3();
+    await fetch({
+      params: options,
+      onSuccess: handleSuccess,
+      onError: (error) => {
+        console.log(error);
+        setMessage(error?.message);
+      },
+    });
+  };
 
-    // const [message , setmessage] = useState("");
-    // const [success, setsuccess] = useState(false);
-    const {enableWeb3 , isWeb3Enabled, Moralis} = useMoralis();
+  const handleSuccess = async (tx) => {
+    try {
+      await tx.wait(1);
+      setMessage("check console for success log");
+      console.log(tx);
+      setSuccess(true);
+    } catch (error) {
+      console.log(error);
+      setMessage(error?.message);
+      setSuccess(false);
+    }
+  };
 
-    const Abi = abi;
-    const Address = "0xc99632aA6D711421eB5997eaD592aEc1d6827D5a"
-
-    // const { name , setName}= useState();
-    // const { message, setMessage}= useState();
-
-    const name = "moses";
-    const message = "good job"
-    
-
-    const {
-        data: contractData,
-        error,
-        runContractFunction: buy,
-        isFetching,
-        isLoading,
-      } = useWeb3Contract({
-        abi: Abi,
-        contractAddress: Address,
-        functionName: "buyCoffee",
-        params: {
-          _name: name ,
-          _message: message
-        },
-        msgValue: Moralis.Units.ETH("0.001"),
-      });
-
-
-
-      const buyCoffee = async () => {
-        if ( isWeb3Enabled) {
-          await buy({
-            onSuccess: handleSuccess,
-            onError: (error) => {
-               console.log(error),
-              setisTxnLoading(false);
-            },
-          });
-          console.log(
-            "hey"
-          )
-        } else {
-          toast.error("something went wrong", {
-            theme: "dark",
-          });
-        }
-      };
-
-
-
+  console.log(isWeb3Enabled);
   return (
-    <div className='main'>
-          <h1 className='main-text'>Buy Xyz a Coffee</h1>
-          <form>
-            <label>Send a message</label>
-            <textarea
-              type="text"
-              placeholder="Enjoy your coffee!"
-              id="message"
-              required
-            ></textarea>
-            <button
-              type='button'
-              className='form-button'
-              onClick={buyCoffee}
-            >
-              Buy
-            </button>
-          </form>
+    <div className="main">
+      <h1 className="main-text">Buy Xyz a Coffee</h1>
+      <form>
+        <label>Send a message</label>
+        <textarea
+          type="text"
+          placeholder="Enjoy your coffee!"
+          id="message"
+          required
+        ></textarea>
+        <button type="button" className="form-button" onClick={buyCoffee}>
+          Buy
+        </button>
+      </form>
     </div>
   );
-  
 }
 
 export default Main;

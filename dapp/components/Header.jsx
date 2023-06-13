@@ -1,11 +1,11 @@
 import React from 'react';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 function Header() {
     return ( 
         <div className="header">
             <p>BuyMeACoffee</p>
-            <ConnectButton />
+            <ConnectWallet />
         </div>
      );
 }
