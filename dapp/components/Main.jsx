@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Modal  from "react-modal";
 import {
   useWeb3Contract,
   useMoralis,
@@ -8,7 +9,9 @@ import {
 function Main() {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const [modalsOpen, setIsOpen] = useState(false)
   const { enableWeb3, isWeb3Enabled, Moralis } = useMoralis();
+
 
   const { data, error, isFetching, isLoading, fetch } =
     useWeb3ExecuteFunction();
@@ -120,6 +123,15 @@ function Main() {
     msgValue: Moralis.Units.ETH(0.001),
   };
 
+
+  function openModal(){
+    setIsOpen(true)
+  }
+
+  function closeModal(){
+    setIsOpen(false)
+  }
+
   const buyCoffee = async () => {
     await enableWeb3();
     await fetch({
@@ -157,9 +169,16 @@ function Main() {
           id="message"
           required
         ></textarea>
-        <button type="button" className="form-button" onClick={buyCoffee}>
+        <button type="button" className="form-button" onClick={openModal}>
           Buy
         </button>
+        <Modal isOpen={modalsOpen} onRequestClose={closeModal} contentLabel="Modal">
+          <button onClick={closeModal}> close </button>
+          <div>
+            buy  a coffee for 0.001
+          </div>
+          <button onClick={buyCoffee}>Buy</button>
+        </Modal>
       </form>
     </div>
   );
