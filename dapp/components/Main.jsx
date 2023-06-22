@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Modal  from "react-modal";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import {
   useWeb3Contract,
   useMoralis,
@@ -172,8 +174,8 @@ function Main() {
         <button type="button" className="form-button" onClick={openModal}>
           Buy
         </button>
-        <Modal isOpen={modalsOpen} onRequestClose={closeModal} contentLabel="Modal">
-          <button onClick={closeModal}> close </button>
+        <Modal isOpen={modalsOpen} onRequestClose={closeModal} contentLabel="Modal" className= "Modal" overlayClassName="Overlay">
+          <FontAwesomeIcon icon={faXmark} size="xl" onClick={closeModal} />
           <div>
             buy  a coffee for 0.001
           </div>

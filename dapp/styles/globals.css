@@ -57,10 +57,12 @@ label{
   font-size: 16px;
 }
 .Modal {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-  background-color: papayawhip;
+   position: absolute; 
+  background-color: #E1B88E ;
+  width: 30%;
+  height: 50%;
+  border-radius: 10px;
+  color:#fff;
+  top: 35%;
+  left: 35%;
 }
