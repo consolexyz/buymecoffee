@@ -175,11 +175,11 @@ function Main() {
           Buy
         </button>
         <Modal isOpen={modalsOpen} onRequestClose={closeModal} contentLabel="Modal" className= "Modal" overlayClassName="Overlay">
-          <FontAwesomeIcon icon={faXmark} size="xl" onClick={closeModal} />
-          <div>
-            buy  a coffee for 0.001
+          <FontAwesomeIcon icon={faXmark} size="xl" onClick={closeModal} className="close-icon" />
+          <div className="modal-content">
+            Buy  a coffee for 0.001 ETH
+          <div><button onClick={buyCoffee} className="modal-button">Buy</button></div>
           </div>
-          <button onClick={buyCoffee}>Buy</button>
         </Modal>
       </form>
     </div>
